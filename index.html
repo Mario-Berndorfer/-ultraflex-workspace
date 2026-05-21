@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UltraFlex Workspace</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1>UltraFlex Workspace</h1>
+          <p>Lokaler Prototyp fuer Test-Steuerdateien. Kein Versand, keine Power-Automate-Ausfuehrung.</p>
+        </div>
+        <div class="status-pill">Sample/Testdaten only</div>
+      </header>
+
+      <main class="workspace">
+        <section class="toolbar" aria-label="Workspace controls">
+          <div class="file-panel">
+            <label>
+              Steuerdatei
+              <input id="controlFileName" type="text" value="UltraFlex_Steuerung_Test.xlsx" />
+            </label>
+            <label>
+              Anhaenge-Ordner
+              <input id="attachmentFolderName" type="text" value="Mailkampagnen/Ultraflex Serienmails/Anhaenge" />
+            </label>
+          </div>
+
+          <div class="action-panel">
+            <button id="loadSampleBtn" type="button">Sample laden</button>
+            <button id="exportJsonBtn" type="button">JSON exportieren</button>
+            <button id="importJsonBtn" type="button">JSON importieren</button>
+            <button id="exportCsvBtn" type="button">MailDaten CSV</button>
+            <input id="jsonFileInput" type="file" accept="application/json,.json" hidden />
+          </div>
+        </section>
+
+        <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+        <section class="metrics" aria-label="Validation summary">
+          <div class="metric">
+            <span id="metricTotal">0</span>
+            <label>Zeilen</label>
+          </div>
+          <div class="metric">
+            <span id="metricActive">0</span>
+            <label>Aktiv</label>
+          </div>
+          <div class="metric danger">
+            <span id="metricMissingEmail">0</span>
+            <label>fehlende E-Mail</label>
+          </div>
+          <div class="metric warning">
+            <span id="metricMissingAttachment">0</span>
+            <label>Anhang offen</label>
+          </div>
+          <div class="metric">
+            <span id="metricChanged">0</span>
+            <label>geaendert/dupliziert</label>
+          </div>
+        </section>
+
+        <section class="content-grid">
+          <div class="list-pane">
+            <div class="filters">
+              <input id="searchInput" type="search" placeholder="Kunde, E-Mail, Betreff oder Anhang suchen" />
+              <select id="filterSelect" aria-label="Filter">
+                <option value="all">Alle Zeilen</option>
+                <option value="active">Nur Aktiv</option>
+                <option value="inactive">Nur Inaktiv</option>
+                <option value="missingEmail">Fehlende E-Mail</option>
+                <option value="missingAttachment">Fehlender Anhang</option>
+                <option value="changed">Geaendert/dupliziert</option>
+              </select>
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Kunde</th>
+                    <th>E-Mail</th>
+                    <th>Betreff</th>
+                    <th>Anhang</th>
+                  </tr>
+                </thead>
+                <tbody id="rowsTableBody"></tbody>
+              </table>
+            </div>
+            <div id="emptyState" class="empty-state" hidden>Keine passenden Zeilen gefunden.</div>
+          </div>
+
+          <aside class="detail-pane" aria-label="Selected recipient details">
+            <div class="detail-header">
+              <div>
+                <h2 id="detailTitle">Keine Zeile ausgewaehlt</h2>
+                <p id="detailSubtitle">Waehle links eine Zeile aus.</p>
+              </div>
+              <button id="duplicateBtn" type="button" disabled>Zeile duplizieren</button>
+            </div>
+
+            <form id="detailForm" class="detail-form">
+              <label>
+                Aktiv
+                <select name="Aktiv">
+                  <option value="Ja">Ja</option>
+                  <option value="Nein">Nein</option>
+                </select>
+              </label>
+              <label>
+                E-Mail
+                <input name="Email" type="email" />
+              </label>
+              <label>
+                Name intern
+                <input name="Name_Intern" type="text" />
+              </label>
+              <label>
+                Begruessung
+                <input name="Begruessung" type="text" />
+              </label>
+              <label>
+                Betreff
+                <input name="Betreff" type="text" />
+              </label>
+              <label>
+                Intro
+                <textarea name="Intro" rows="2"></textarea>
+              </label>
+              <label>
+                Body Hauptteil
+                <textarea name="Body_Hauptteil" rows="3"></textarea>
+              </label>
+              <label>
+                Angebotsblock
+                <textarea name="Angebotsblock" rows="2"></textarea>
+              </label>
+              <label>
+                CTA
+                <input name="CTA" type="text" />
+              </label>
+              <label>
+                Abschluss
+                <input name="Abschluss" type="text" />
+              </label>
+              <label>
+                PS
+                <input name="PS" type="text" />
+              </label>
+              <label>
+                Anhang1_Datei
+                <div class="inline-field">
+                  <input name="Anhang1_Datei" type="text" />
+                  <select id="attachmentSelect" aria-label="Anhang auswaehlen"></select>
+                </div>
+              </label>
+            </form>
+
+            <div class="validation-box">
+              <h3>Pruefung</h3>
+              <ul id="validationList"></ul>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
