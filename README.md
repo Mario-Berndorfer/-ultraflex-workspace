@@ -16,6 +16,18 @@ Open:
 http://localhost:5174
 ```
 
+## Vercel
+
+Deploy as a static site. The browser app only needs:
+
+- `index.html`
+- `styles.css`
+- `app.js`
+- `vercel.json`
+
+`server.mjs` is only a local helper for running the static files on localhost.
+It is not used by Vercel.
+
 ## Prototype Scope
 
 - Uses fake/sample data only.
